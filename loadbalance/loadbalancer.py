@@ -46,14 +46,14 @@ class LoadBalancer:
 
             self.write_users(file)
 
-            self._dict_server = self.servers_processed_task()
-            self._dict_server = self.update_activite_servers()
+            self._dict_server = self.servers_processed_task(self._dict_server)
+            self._dict_server = self.update_activite_servers(self._dict_server)
 
         while self._dict_server != {}:
             self.write_users(file)
 
-            self._dict_server = self.servers_processed_task()
-            self._dict_server = self.update_activite_servers()
+            self._dict_server = self.servers_processed_task(self._dict_server)
+            self._dict_server = self.update_activite_servers(self._dict_server)
 
         self.write_cost(file)
 
@@ -117,13 +117,12 @@ class LoadBalancer:
         list_server[self.id] = server.allocate_on_server(server_id, user.ttask)
         return list_server
 
-    def servers_processed_task(self):
+    def servers_processed_task(self, list_server):
         """get the servers with the tasks processed.
 
         Return:
         server list with tasks processed.
         """
-        list_server = self._dict_server
         for id, server in list_server.items():
             _server = Server(
                 id=server["id"], status=server["status"], cost=server["cost"]
@@ -139,14 +138,14 @@ class LoadBalancer:
 
         return list_server
 
-    def update_activite_servers(self):
+    def update_activite_servers(self, list_server):
         """update the servers' list  with active servers.
 
         Return:
         servers' list actives.
         """
         activite_servers = {}
-        for id, server in self._dict_server.items():
+        for id, server in list_server.items():
             if server["status"] == 1:
                 activite_servers.update({id: server})
 
