@@ -1,7 +1,13 @@
+"""file to transform data."""
+
+
 def transform_data(data):
+    """Convert list of str in list of int.
+
+    Keyword argument:
+    data -- list of str.
+    Return:
+    list of int.
+    """
     list_int = list(map(int, data))
     return list_int
-
-def transform_set_list(data):
-    list_set = list(set(data))
-    return list_set
